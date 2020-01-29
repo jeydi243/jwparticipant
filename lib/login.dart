@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:jwparticipant/home.dart';
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 enum FormType {
 	login,
@@ -58,7 +59,15 @@ class _LoginState extends State < LoginPage > {
 		return PageRouteBuilder(
 			pageBuilder: (context, animation, secondaryAnimation) => MyHomePage(),
 			transitionsBuilder: (context, animation, secondaryAnimation, child) {
-				return child;
+				var begin = Offset(0.0, 1.0);
+				var end = Offset.zero;
+				var tween = Tween(begin: begin, end: end);
+				var offsetAnimation = animation.drive(tween);
+
+				return SlideTransition(
+					position: offsetAnimation,
+					child: child,
+				);
 			},
 		);
 	}
@@ -78,26 +87,23 @@ class _LoginState extends State < LoginPage > {
 	@override
 	Widget build(BuildContext context) {
 		return Scaffold(
-			// appBar: AppBar(
-			// 	title: Text("Login"),
-			// 	automaticallyImplyLeading: false,
-			// ),
 			body: SafeArea(
 				child: Stack(
 					fit: StackFit.passthrough,
 					children: [
 						FlareActor("assets/Lowpoly.flr",
-						animation: "move",
+							animation: "move",
 						),
 						Center(
 							child: new AnimatedContainer(
+								curve: Curves.fastOutSlowIn,
 								duration: Duration(seconds: 2),
 								alignment: Alignment.center,
 								decoration: BoxDecoration(
 									gradient: LinearGradient(
 										begin: Alignment.topRight,
 										end: Alignment.bottomLeft,
-										colors: [hexToColor("#71A38C"), hexToColor("#124A2C")])
+										colors: [hexToColor("#71A38C"), hexToColor("#124A2C")]),
 								),
 								padding: EdgeInsets.all(15.0),
 								child: new Form(
@@ -117,23 +123,22 @@ class _LoginState extends State < LoginPage > {
 
 	List < Widget > _buildBody() {
 		return [
-			new Text("Hello,", style: TextStyle(
-				color: Colors.white
+			new Text("Bonjour!,", style: GoogleFonts.bubblegumSans(
+				textStyle: TextStyle(color: Colors.white, letterSpacing: .5)
 			)),
-			new Text("Bienvenue, Ravis de vous voir", style: TextStyle(
+			new Text("Bienvenue, Ravis de vous voir", style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
 				color: Colors.white,
-				fontWeight: FontWeight.bold,
-				fontSize: 22.0
-			)),
+				fontSize: 22.0,
+				letterSpacing: .5
+			))),
 			new TextFormField(
 				onSaved: (value) => email = value,
 				validator: (value) => value.isEmpty ? "L'email doit etre renseigné" : null,
 				decoration: new InputDecoration(
 					labelText: "Email",
-					labelStyle: TextStyle(
+					labelStyle: GoogleFonts.bubblegumSans(textStyle: TextStyle(
 						color: Colors.white,
-
-					)
+					))
 				),
 			),
 			new TextFormField(
@@ -141,10 +146,9 @@ class _LoginState extends State < LoginPage > {
 				validator: (value) => value.isEmpty ? "Le mot de passe doit etre renseigné" : null,
 				decoration: new InputDecoration(
 					labelText: "Mot de passe",
-					labelStyle: TextStyle(
+					labelStyle: GoogleFonts.bubblegumSans(textStyle: TextStyle(
 						color: Colors.white,
-
-					)
+					))
 				),
 				obscureText: true,
 			),
