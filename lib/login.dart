@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:jwparticipant/auth.dart';
 import 'package:jwparticipant/home.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,9 +9,8 @@ enum FormType {
 	signup
 }
 class LoginPage extends StatefulWidget {
-	LoginPage({
-		Key key
-	}): super(key: key);
+	LoginPage({this.auth});
+	final BaseAuth auth;
 
 	@override
 	_LoginState createState() => _LoginState();
@@ -19,8 +18,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginState extends State < LoginPage > {
 	final formKey = GlobalKey < FormState > ();
-	String email;
-	String password;
+	String _email;
+	String _password;
 	FormType _formType = FormType.login;
 
 
@@ -29,7 +28,7 @@ class _LoginState extends State < LoginPage > {
 		if (form.validate()) {
 			form.save();
 			print("le formulaire est pret");
-			print('$email et $password');
+			print('$_email et $_password');
 			return true;
 		} else {
 			print("Erreur dans le formulaire");
@@ -40,13 +39,13 @@ class _LoginState extends State < LoginPage > {
 		if (_validateandSave()) {
 			try {
 				if (_formType == FormType.login) {
-					FirebaseUser user = (await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password)).user;
-					print("L'utilisateur s'est bien connecté ${user.uid}");
+					String uid = await widget.auth.signIn(_email, _password);
+					print("L'utilisateur s'est bien connecté $uid");
 					formKey.currentState.reset();
 					Navigator.of(context).push(_createRoute());
 				} else {
-					FirebaseUser user = (await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password)).user;
-					print("L'utilisateur s'est bien enregistré ${user.uid}");
+					String uid = await widget.auth.signup(_email,  _password);
+					print("L'utilisateur s'est bien enregistré $uid");
 					formKey.currentState.reset();
 					Navigator.of(context).push(_createRoute());
 				}
@@ -132,7 +131,7 @@ class _LoginState extends State < LoginPage > {
 				letterSpacing: .5
 			))),
 			new TextFormField(
-				onSaved: (value) => email = value,
+				onSaved: (value) => _email = value,
 				validator: (value) => value.isEmpty ? "L'email doit etre renseigné" : null,
 				decoration: new InputDecoration(
 					labelText: "Email",
@@ -142,7 +141,7 @@ class _LoginState extends State < LoginPage > {
 				),
 			),
 			new TextFormField(
-				onSaved: (value) => password = value,
+				onSaved: (value) => _password = value,
 				validator: (value) => value.isEmpty ? "Le mot de passe doit etre renseigné" : null,
 				decoration: new InputDecoration(
 					labelText: "Mot de passe",
