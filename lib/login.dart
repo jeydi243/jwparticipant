@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:jwparticipant/home.dart';
+import 'package:flare_flutter/flare_actor.dart';
 
 enum FormType {
 	login,
@@ -79,28 +80,37 @@ class _LoginState extends State < LoginPage > {
 		return Scaffold(
 			// appBar: AppBar(
 			// 	title: Text("Login"),
+			// 	automaticallyImplyLeading: false,
 			// ),
 			body: SafeArea(
-				child: Center(
-					child: new Container(
-						// height: 200.0,
-						// width: 200.0,
-						alignment: Alignment.center,
-						decoration: BoxDecoration(
-							gradient: LinearGradient(
-								begin: Alignment.topRight,
-								end: Alignment.bottomLeft,
-								colors: [hexToColor("#71A38C"), hexToColor("#124A2C")])
+				child: Stack(
+					fit: StackFit.passthrough,
+					children: [
+						FlareActor("assets/Lowpoly.flr",
+						animation: "move",
 						),
-						padding: EdgeInsets.all(15.0),
-						child: new Form(
-							key: formKey,
-							child: new Column(
-								children: _buildBody() + _buildSubmitButtons()
+						Center(
+							child: new AnimatedContainer(
+								duration: Duration(seconds: 2),
+								alignment: Alignment.center,
+								decoration: BoxDecoration(
+									gradient: LinearGradient(
+										begin: Alignment.topRight,
+										end: Alignment.bottomLeft,
+										colors: [hexToColor("#71A38C"), hexToColor("#124A2C")])
+								),
+								padding: EdgeInsets.all(15.0),
+								child: new Form(
+									key: formKey,
+									child: new Column(
+										children: _buildBody() + _buildSubmitButtons()
+									),
+								),
 							),
-						),
-					),
-				))
+						)
+					],
+				)
+			)
 		);
 
 	}
@@ -145,8 +155,12 @@ class _LoginState extends State < LoginPage > {
 		if (_formType == FormType.login) {
 			return [
 				new RaisedButton(
+					elevation: 22.0,
 					textColor: hexToColor("#124A2C"),
 					child: new Text("Connexion"),
+					shape: RoundedRectangleBorder(
+						borderRadius: new BorderRadius.circular(18.0),
+					),
 					color: Colors.white,
 					onPressed: () {
 						_submit();

@@ -13,13 +13,14 @@ class _MyHomePageState extends State < MyHomePage > {
 	@override
 	Widget build(BuildContext context) {
 		return Scaffold(
-			appBar: AppBar(title: Text('Baby Name Votes')),
+			appBar: AppBar(title: Text('Accueil')),
 			body: _buildBody(context),
 		);
 	}
 
 	Widget _buildBody(BuildContext context) {
-		return Container(
+		return AnimatedContainer(
+			duration: Duration(seconds: 2),
 			child: Column(
 				children: [
 					StreamBuilder < QuerySnapshot > (
