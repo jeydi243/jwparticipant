@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:jwparticipant/home.dart';
+
 enum FormType {
 	login,
 	signup
@@ -38,15 +40,27 @@ class _LoginState extends State < LoginPage > {
 				if (_formType == FormType.login) {
 					FirebaseUser user = (await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password)).user;
 					print("L'utilisateur s'est bien connecté ${user.uid}");
-				}else{
-					
+					formKey.currentState.reset();
+					Navigator.of(context).push(_createRoute());
+				} else {
+					FirebaseUser user = (await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password)).user;
+					print("L'utilisateur s'est bien enregistré ${user.uid}");
+					formKey.currentState.reset();
+					Navigator.of(context).push(_createRoute());
 				}
 			} catch (e) {
 				print(e);
 			}
 		}
 	}
-
+	Route _createRoute() {
+		return PageRouteBuilder(
+			pageBuilder: (context, animation, secondaryAnimation) => MyHomePage(),
+			transitionsBuilder: (context, animation, secondaryAnimation, child) {
+				return child;
+			},
+		);
+	}
 	Color hexToColor(String code) {
 		return new Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
 	}
@@ -96,7 +110,7 @@ class _LoginState extends State < LoginPage > {
 			new Text("Hello,", style: TextStyle(
 				color: Colors.white
 			)),
-			new Text("Bienvenue, Ravis de vous voir",style: TextStyle(
+			new Text("Bienvenue, Ravis de vous voir", style: TextStyle(
 				color: Colors.white,
 				fontWeight: FontWeight.bold,
 				fontSize: 22.0
