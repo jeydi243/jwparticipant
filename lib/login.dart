@@ -21,6 +21,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginState extends State < LoginPage > {
 	final _formKey = GlobalKey < FormState > ();
+	String fin ="#FAD961";
 	String _email;
 	bool _canObscure = true;
 	String _nom;
@@ -183,11 +184,15 @@ class _LoginState extends State < LoginPage > {
 	}
 	Widget _buildSignup() {
 		return Column(
+			mainAxisAlignment: MainAxisAlignment.center,
 			children: [
 				Image.asset("images/conversation.png", fit: BoxFit.fill),
-				Text("Rejoignez-nous!",
-					style: TextStyle(color: Colors.yellow[800],
-						fontSize: 40),
+				Text("Rejoignez-nous!",softWrap: true,
+					style: TextStyle(
+						color: Colors.yellow[800],
+						fontSize: 30,
+						
+					),
 				),
 				new TextFormField(
 					onSaved: (value) => _nom = value,
@@ -206,6 +211,8 @@ class _LoginState extends State < LoginPage > {
 				
 				new RaisedButton(
 					elevation: 12.0,
+					padding: EdgeInsets.all(10.0),
+					
 					shape: RoundedRectangleBorder(
 						borderRadius: new BorderRadius.circular(18.0),
 					),
@@ -237,33 +244,29 @@ class _LoginState extends State < LoginPage > {
 	@override
 	Widget build(BuildContext context) {
 		return Scaffold(
-			extendBody: true,
-			body: SafeArea(
-				child: Center(
-					child: new AnimatedContainer(
-						curve: Curves.fastOutSlowIn,
-						duration: Duration(seconds: 2),
-						alignment: Alignment.center,
-						decoration: BoxDecoration(
+			body: new AnimatedContainer(
+					height: MediaQuery.of(context).size.height,
+					curve: Curves.fastOutSlowIn,
+					duration: Duration(seconds: 2),
+					alignment: Alignment.center,
+					decoration: BoxDecoration(
 							color: Colors.white,
 							// gradient: LinearGradient(
-							// 	begin: Alignment.topRight,
-							// 	end: Alignment.bottomLeft,
-							// 	colors: [hexToColor(debut), hexToColor(fin)]),
-						),
-						padding: EdgeInsets.all(20.0),
-						child: new Form(
-							key: _formKey,
-							child: AnimatedSwitcher(
-								switchOutCurve: Curves.fastOutSlowIn,
-								duration: const Duration(seconds: 2),
-									child: _formType == FormType.login ? _buildLogin() : _buildSignup(),
-							)
-						),
-
+							// 	begin: Alignment.topCenter,
+							// 	end: Alignment.bottomCenter,
+							// 	colors: [Colors.white,Colors.white ,_hexToColor(fin)]),
 					),
-				)
-			)
+					padding: EdgeInsets.all(20.0),
+					child: new Form(
+						key: _formKey,
+						child: AnimatedSwitcher(
+							// switchOutCurve: Curves.fastOutSlowIn,
+							duration: const Duration(seconds: 2),
+							child: _formType == FormType.login ? _buildLogin() : _buildSignup(),
+						)
+					),
+				),
+			
 		);
 	}
 }
