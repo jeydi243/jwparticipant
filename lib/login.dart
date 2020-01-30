@@ -48,7 +48,7 @@ class _LoginState extends State < LoginPage > {
 					_formKey.currentState.reset();
 					Navigator.of(context).push(_createRoute());
 				} else {
-					String uid = await widget.auth.signup(_email, _password,_nom);
+					String uid = await widget.auth.signUp(_email, _password,_nom);
 					print("L'utilisateur s'est bien enregistré $uid");
 					_formKey.currentState.reset();
 					Navigator.of(context).push(_createRoute());
