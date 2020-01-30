@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:jwparticipant/login.dart';
 import 'package:jwparticipant/home.dart';
+import 'package:jwparticipant/auth.dart';
 
 
 void main() => runApp(MyApp());
