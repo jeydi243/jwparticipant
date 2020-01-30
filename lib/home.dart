@@ -19,10 +19,27 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State < MyHomePage > {
+	void _signOut()async{
+		try {
+			await widget.auth.signOut();
+		  
+		} catch (e) {
+			print(e);
+		}
+
+	}
 	@override
 	Widget build(BuildContext context) {
 		return Scaffold(
-			appBar: AppBar(title: Text('Accueil')),
+			appBar: AppBar(
+				title: Text('Accueil'),
+				actions: <Widget>[
+					FlatButton(
+						child: Icon(Icons.subdirectory_arrow_left),
+						onPressed: _signOut,
+					)
+				],
+			),
 			body: _buildBody(context),
 		);
 	}
