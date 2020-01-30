@@ -19,11 +19,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginState extends State < LoginPage > {
+	// String debut = "#71A38C";
+	// String fin = "#124A2C";
 	final formKey = GlobalKey < FormState > ();
 	String _email;
 	String _password;
-	String debut = "#71A38C";
-	String fin = "#124A2C";
 	FormType _formType = FormType.login;
 
 
@@ -80,20 +80,21 @@ class _LoginState extends State < LoginPage > {
 	_moveTocreerCompte() {
 		setState(() {
 			_formType = FormType.signup;
-			debut = "#FFE53B";
+			// debut = "#FFE53B";
 
 		});
 	}
 	_moveToLogin() {
 		setState(() {
 			_formType = FormType.login;
-			fin = "#FF2525";
+			// fin = "#FF2525";
 		});
 	}
 
 	@override
 	Widget build(BuildContext context) {
 		return Scaffold(
+			extendBody: true,
 			body: SafeArea(
 				child: Center(
 					child: new AnimatedContainer(
@@ -101,19 +102,18 @@ class _LoginState extends State < LoginPage > {
 						duration: Duration(seconds: 2),
 						alignment: Alignment.center,
 						decoration: BoxDecoration(
-							gradient: LinearGradient(
-								begin: Alignment.topRight,
-								end: Alignment.bottomLeft,
-								colors: [hexToColor(debut), hexToColor(fin)]),
+							color: Colors.white,
+							// gradient: LinearGradient(
+							// 	begin: Alignment.topRight,
+							// 	end: Alignment.bottomLeft,
+							// 	colors: [hexToColor(debut), hexToColor(fin)]),
 						),
 						padding: EdgeInsets.all(15.0),
-						child: Center(child: new Form(
-							key: formKey,
-							child: new Column(
-								mainAxisAlignment: MainAxisAlignment.center,
-								children: _buildBody() + _buildSubmitButtons()
-							),
-						), )
+						child: Center(
+							child: new Form(
+								key: formKey,
+								child: _formType == FormType.login ? _buildLogin() : _buildSignup(),
+							), )
 					),
 				)
 			)
@@ -121,101 +121,106 @@ class _LoginState extends State < LoginPage > {
 
 	}
 
-	List < Widget > _buildBody() {
-		return [
-			new Text("Bonjour!,", 
-			style: GoogleFonts.bubblegumSans(
-				textStyle: TextStyle(
-					color: Colors.white,
-					letterSpacing: .5,
-					fontSize: 25.0,
-				)
-			)),
-			new Text("Ravis de vous revoir", 
-			style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
-				color: Colors.white,
-				fontSize: 35.0,
-				letterSpacing: .5
-			))),
-			new TextFormField(
-
-				onSaved: (value) => _email = value,
-				validator: (value) => value.isEmpty ? "L'email doit etre renseigné" : null,
-				decoration: new InputDecoration(
-					hoverColor: Colors.green,
-					isDense: true,
-					suffixIcon: Icon(Icons.account_circle, color: Colors.white, ),
-					labelText: "Email",
-					labelStyle: GoogleFonts.bubblegumSans(textStyle: TextStyle(
-						color: Colors.white,
-					))
-				),
-			),
-			new TextFormField(
-				onSaved: (value) => _password = value,
-				validator: (value) => value.isEmpty ? "Le mot de passe doit etre renseigné" : null,
-				decoration: new InputDecoration(
-					suffixIcon: Icon(Icons.lock, color: Colors.white, ),
-					labelText: "Mot de passe",
-					labelStyle: GoogleFonts.bubblegumSans(textStyle: TextStyle(
-						color: Colors.white,
-					))
-				),
-				obscureText: true,
-			),
-			Row(
-				children: <Widget>[
-					Spacer(flex: 2,),
-					new Text("Reinitialisé? ",
-						style: GoogleFonts.alef(
-							textStyle: TextStyle(
-								color: Colors.white
-							)
+	Widget _buildLogin() {
+		return Column(
+			children: [
+				Image.asset("images/conversation.png", fit: BoxFit.fill, ),
+				new Text("Bonjour!,",
+					style: GoogleFonts.bubblegumSans(
+						textStyle: TextStyle(
+							color: Colors.yellow[800],
+							letterSpacing: .5,
+							fontSize: 25.0,
 						)
-					),
-				],
-			),
-			
-		];
-	}
-
-	List < Widget > _buildSubmitButtons() {
-		if (_formType == FormType.login) {
-			return [
-				new RaisedButton(
-					elevation: 12.0,
-					highlightElevation: 12.0,
-					textColor: hexToColor("#124A2C"),
-					child: new Text("Connexion"),
-					shape: RoundedRectangleBorder(
-						borderRadius: new BorderRadius.circular(18.0),
-					),
-					color: Colors.white,
-					onPressed: () {
-						_submit();
-					},
+					)),
+				new Text("Ravis de vous revoir",
+					style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+						color: Colors.yellow[800],
+						fontSize: 35.0,
+						letterSpacing: .5
+					))),
+				_build2Champ(),
+				Row(
+					children: < Widget > [
+						Spacer(flex: 2, ),
+						new Text("Reinitialisé? ",
+							style: GoogleFonts.alef(
+								textStyle: TextStyle(
+									color: Colors.white
+								)
+							)
+						),
+					],
 				),
+				new RaisedButton(
+						elevation: 12.0,
+						highlightElevation: 12.0,
+						textColor: hexToColor("#124A2C"),
+						child: new Text("Connexion", style: TextStyle(fontSize: 17.0), ),
+						shape: RoundedRectangleBorder(
+							borderRadius: new BorderRadius.circular(18.0),
+						),
+						color: Colors.white,
+						onPressed: () {
+							_submit();
+						},
+					),
 				new FlatButton(
-					child: Text("Creer un compte", style: TextStyle(color: Colors.white)),
+					textColor: Colors.teal,
+					child: Text("Vous possedez deja compte? Connexion"),
 					onPressed: _moveTocreerCompte,
 				)
-			];
-		} else {
-			return [
-				new RaisedButton(
-					textColor: hexToColor("#124A2C"),
-					child: new Text("Creer compte"),
-					color: Colors.white,
-					onPressed: () {
-						_submit();
-					},
+
+			]);
+	}
+
+	Widget _buildSignup() {
+			return Column(
+				children: [
+					Image.asset("images/conversation.png", fit: BoxFit.fill),
+					// Spacer(),
+					_build2Champ(),
+					
+					new FlatButton(
+						textColor: Colors.teal,
+						child: Text("Creer un compte"),
+						onPressed: _moveToLogin,
+					)
+				]
+			);
+		
+	}
+
+	Widget _build2Champ(){
+		return Column(
+			children: <Widget>[
+				new TextFormField(
+					onSaved: (value) => _email = value,
+					validator: (value) => value.isEmpty ? "L'email doit etre renseigné" : null,
+					decoration: new InputDecoration(
+						hoverColor: Colors.green,
+						isDense: true,
+						suffixIcon: Icon(Icons.account_circle, color: Colors.teal, ),
+						labelText: "Email",
+						labelStyle: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+							color: Colors.teal,
+						))
+					),
 				),
-				new FlatButton(
-					child: Text("Vous possedez deja compte? Connexion", style: TextStyle(color: Colors.white)),
-					onPressed: _moveToLogin,
-				)
-			];
-		}
+				new TextFormField(
+					onSaved: (value) => _password = value,
+					validator: (value) => value.isEmpty ? "Le mot de passe doit etre renseigné" : null,
+					decoration: new InputDecoration(
+						suffixIcon: Icon(Icons.lock, color: Colors.teal, ),
+						labelText: "Mot de passe",
+						labelStyle: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+							color: Colors.teal,
+						))
+					),
+					obscureText: true,
+				),
+			],
+		);
 	}
 
 }
