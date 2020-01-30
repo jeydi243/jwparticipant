@@ -20,11 +20,28 @@ class RootPage extends StatefulWidget {
 class _RootPageState extends State < RootPage > {
 	AuthStatus status = AuthStatus.notSignedIn;
 	@override
+	void initState() {
+		super.initState();
+		widget.auth.currentUser().then((uid){
+			setState((){
+				status = uid == null? AuthStatus.notSignedIn: AuthStatus.signedIn;
+			});
+		});
+	}
+	void _signedIn(){
+		setState(() {
+		  status = AuthStatus.signedIn;
+		});
+	}
+	@override
 	Widget build(BuildContext context) {
 		switch (status) {
 			case AuthStatus.notSignedIn:
 				return Container(
-					child: new LoginPage(auth: widget.auth),
+					child: new LoginPage(
+						auth: widget.auth,
+						onSignedIn: _signedIn,
+					),
 				);
 				break;
 			case AuthStatus.signedIn:
@@ -33,6 +50,12 @@ class _RootPageState extends State < RootPage > {
 				);
 				break;
 		}
+		return new Scaffold(
+			appBar: AppBar(title: Text("le monde est beau")),
+			body: Container(
+				child: Text("Le corps"),
+			),
+		);
 
 	}
 }

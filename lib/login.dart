@@ -11,10 +11,10 @@ enum FormType {
 }
 class LoginPage extends StatefulWidget {
 	LoginPage({
-		this.auth
+		this.auth,this.onSignedIn
 	});
 	final BaseAuth auth;
-
+	final VoidCallback onSignedIn;
 	@override
 	_LoginState createState() => _LoginState();
 }
@@ -48,7 +48,7 @@ class _LoginState extends State < LoginPage > {
 					_formKey.currentState.reset();
 					Navigator.of(context).push(_createRoute());
 				} else {
-					String uid = await widget.auth.signup(_email, _password);
+					String uid = await widget.auth.signup(_email, _password,_nom);
 					print("L'utilisateur s'est bien enregistré $uid");
 					_formKey.currentState.reset();
 					Navigator.of(context).push(_createRoute());
