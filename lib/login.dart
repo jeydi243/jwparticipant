@@ -1,7 +1,8 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:jwparticipant/auth.dart';
 import 'package:jwparticipant/home.dart';
-import 'package:flare_flutter/flare_actor.dart';
+// import 'package:flare_flutter/flare_actor.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 enum FormType {
@@ -19,16 +20,14 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginState extends State < LoginPage > {
-	// String debut = "#71A38C";
-	// String fin = "#124A2C";
-	final formKey = GlobalKey < FormState > ();
+	final _formKey = GlobalKey < FormState > ();
 	String _email;
+	bool _canObscure = true;
+	String _nom;
 	String _password;
 	FormType _formType = FormType.login;
-
-
 	bool _validateandSave() {
-		final form = formKey.currentState;
+		final form = _formKey.currentState;
 		if (form.validate()) {
 			form.save();
 			print("le formulaire est pret");
@@ -45,12 +44,12 @@ class _LoginState extends State < LoginPage > {
 				if (_formType == FormType.login) {
 					String uid = await widget.auth.signIn(_email, _password);
 					print("L'utilisateur s'est bien connecté $uid");
-					formKey.currentState.reset();
+					_formKey.currentState.reset();
 					Navigator.of(context).push(_createRoute());
 				} else {
 					String uid = await widget.auth.signup(_email, _password);
 					print("L'utilisateur s'est bien enregistré $uid");
-					formKey.currentState.reset();
+					_formKey.currentState.reset();
 					Navigator.of(context).push(_createRoute());
 				}
 			} catch (e) {
@@ -74,21 +73,165 @@ class _LoginState extends State < LoginPage > {
 			},
 		);
 	}
-	Color hexToColor(String code) {
+	Color _hexToColor(String code) {
 		return new Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
 	}
 	_moveTocreerCompte() {
 		setState(() {
 			_formType = FormType.signup;
-			// debut = "#FFE53B";
-
 		});
 	}
 	_moveToLogin() {
 		setState(() {
 			_formType = FormType.login;
-			// fin = "#FF2525";
+
 		});
+	}
+	Widget _build2Champ() {
+		return Column(
+			children: < Widget > [
+				new TextFormField(
+					onSaved: (value) => _email = value,
+					validator: (value) => value.isEmpty ? "L'email doit etre renseigné" : null,
+					decoration: new InputDecoration(
+						hoverColor: Colors.green,
+						isDense: true,
+						prefixIcon: Icon(Icons.email, color: Colors.teal, ),
+						labelText: "Email",
+						labelStyle: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+							color: Colors.teal,
+						))
+					),
+				),
+				new TextFormField(
+					onSaved: (value) => _password = value,
+					validator: (value) => value.isEmpty ? "Le mot de passe doit etre renseigné" : null,
+					decoration: new InputDecoration(			
+						isDense: true,			
+						prefixIcon: Icon(Icons.lock, color: Colors.teal),
+						suffixIcon: FlatButton(
+							child: _canObscure ==true ? Text("SHOW"): Text("HIDE"),
+							onPressed: (){
+								setState(() {
+								 _canObscure = _canObscure ? false: true;
+								});
+							},
+						),
+						labelText: "Mot de passe",
+						labelStyle: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+							color: Colors.teal,
+						))
+					),
+					obscureText: _canObscure,
+				),
+			],
+		);
+	}
+	Widget _buildLogin() {
+		return Column(
+			children: [
+				Image.asset("images/conversation.png", fit: BoxFit.fill, ),
+				new Text("Bonjour!,",
+					style: GoogleFonts.bubblegumSans(
+						textStyle: TextStyle(
+							color: Colors.yellow[800],
+							letterSpacing: .5,
+							fontSize: 25.0,
+						)
+					)),
+				new Text("Ravis de vous revoir",
+					style: GoogleFonts.bubblegumSans(
+						textStyle: TextStyle(
+							color: Colors.yellow[800],
+							fontSize: 35.0,
+							letterSpacing: .5
+						)
+					)
+				),
+				_build2Champ(),
+				Row(
+					children: < Widget > [
+						Spacer(flex: 2, ),
+						new Text("Reinitialisé? ",
+							style: GoogleFonts.alef(
+								textStyle: TextStyle(
+									color: Colors.white
+								)
+							)
+						),
+					],
+				),
+				new RaisedButton(
+					elevation: 12.0,
+					textColor: _hexToColor("#124A2C"),
+					child: new Text("Connexion", style: TextStyle(fontSize: 17.0), ),
+					shape: RoundedRectangleBorder(
+						borderRadius: new BorderRadius.circular(18.0),
+					),
+					color: Colors.white,
+					onPressed: () {
+						_submit();
+					},
+				),
+				new FlatButton(
+					textColor: Colors.teal,
+					child: Text("Vous possedez deja compte? Connexion"),
+					onPressed: _moveTocreerCompte,
+				)
+			]
+		);
+	}
+	Widget _buildSignup() {
+		return Column(
+			children: [
+				Image.asset("images/conversation.png", fit: BoxFit.fill),
+				Text("Rejoignez-nous!",
+					style: TextStyle(color: Colors.yellow[800],
+						fontSize: 40),
+				),
+				new TextFormField(
+					onSaved: (value) => _nom = value,
+					
+					validator: (value) => value.isEmpty ? "Le nom doit etre renseigné" : null,
+					decoration: new InputDecoration(
+						isDense: true,
+						prefixIcon: Icon(Icons.account_circle, color: Colors.teal, ),
+						labelText: "Nom",
+						labelStyle: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+							color: Colors.teal,
+						))
+					),
+				),
+				_build2Champ(),
+				
+				new RaisedButton(
+					elevation: 12.0,
+					shape: RoundedRectangleBorder(
+						borderRadius: new BorderRadius.circular(18.0),
+					),
+					textColor: Colors.teal,
+					child: Text("CREER"),
+					onPressed: _submit,
+				),
+				Row(
+					children: < Widget > [
+						Spacer(),
+						Text("Déja enregistré?"),
+						FlatButton(
+							child: Text("Connexion",
+								style: TextStyle(
+									color: Colors.teal,
+									fontWeight: FontWeight.bold
+								), ),
+							onPressed: _moveToLogin,
+						),
+						
+					],
+				)
+
+			]
+		);
+
 	}
 
 	@override
@@ -108,119 +251,19 @@ class _LoginState extends State < LoginPage > {
 							// 	end: Alignment.bottomLeft,
 							// 	colors: [hexToColor(debut), hexToColor(fin)]),
 						),
-						padding: EdgeInsets.all(15.0),
-						child: Center(
-							child: new Form(
-								key: formKey,
-								child: _formType == FormType.login ? _buildLogin() : _buildSignup(),
-							), )
+						padding: EdgeInsets.all(20.0),
+						child: new Form(
+							key: _formKey,
+							child: AnimatedSwitcher(
+								switchOutCurve: Curves.fastOutSlowIn,
+								duration: const Duration(seconds: 2),
+									child: _formType == FormType.login ? _buildLogin() : _buildSignup(),
+							)
+						),
+
 					),
 				)
 			)
 		);
-
 	}
-
-	Widget _buildLogin() {
-		return Column(
-			children: [
-				Image.asset("images/conversation.png", fit: BoxFit.fill, ),
-				new Text("Bonjour!,",
-					style: GoogleFonts.bubblegumSans(
-						textStyle: TextStyle(
-							color: Colors.yellow[800],
-							letterSpacing: .5,
-							fontSize: 25.0,
-						)
-					)),
-				new Text("Ravis de vous revoir",
-					style: GoogleFonts.bubblegumSans(textStyle: TextStyle(
-						color: Colors.yellow[800],
-						fontSize: 35.0,
-						letterSpacing: .5
-					))),
-				_build2Champ(),
-				Row(
-					children: < Widget > [
-						Spacer(flex: 2, ),
-						new Text("Reinitialisé? ",
-							style: GoogleFonts.alef(
-								textStyle: TextStyle(
-									color: Colors.white
-								)
-							)
-						),
-					],
-				),
-				new RaisedButton(
-						elevation: 12.0,
-						highlightElevation: 12.0,
-						textColor: hexToColor("#124A2C"),
-						child: new Text("Connexion", style: TextStyle(fontSize: 17.0), ),
-						shape: RoundedRectangleBorder(
-							borderRadius: new BorderRadius.circular(18.0),
-						),
-						color: Colors.white,
-						onPressed: () {
-							_submit();
-						},
-					),
-				new FlatButton(
-					textColor: Colors.teal,
-					child: Text("Vous possedez deja compte? Connexion"),
-					onPressed: _moveTocreerCompte,
-				)
-
-			]);
-	}
-
-	Widget _buildSignup() {
-			return Column(
-				children: [
-					Image.asset("images/conversation.png", fit: BoxFit.fill),
-					// Spacer(),
-					_build2Champ(),
-					
-					new FlatButton(
-						textColor: Colors.teal,
-						child: Text("Creer un compte"),
-						onPressed: _moveToLogin,
-					)
-				]
-			);
-		
-	}
-
-	Widget _build2Champ(){
-		return Column(
-			children: <Widget>[
-				new TextFormField(
-					onSaved: (value) => _email = value,
-					validator: (value) => value.isEmpty ? "L'email doit etre renseigné" : null,
-					decoration: new InputDecoration(
-						hoverColor: Colors.green,
-						isDense: true,
-						suffixIcon: Icon(Icons.account_circle, color: Colors.teal, ),
-						labelText: "Email",
-						labelStyle: GoogleFonts.bubblegumSans(textStyle: TextStyle(
-							color: Colors.teal,
-						))
-					),
-				),
-				new TextFormField(
-					onSaved: (value) => _password = value,
-					validator: (value) => value.isEmpty ? "Le mot de passe doit etre renseigné" : null,
-					decoration: new InputDecoration(
-						suffixIcon: Icon(Icons.lock, color: Colors.teal, ),
-						labelText: "Mot de passe",
-						labelStyle: GoogleFonts.bubblegumSans(textStyle: TextStyle(
-							color: Colors.teal,
-						))
-					),
-					obscureText: true,
-				),
-			],
-		);
-	}
-
 }
