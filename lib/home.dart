@@ -21,8 +21,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State <HomePage> {
 	void _signOut()async{
 		try {
+			print("la methode est appelé");
 			await widget.auth.signOut();
-		  
+			print("Ca passe");
+		//   Navigator.of(context).pushNamed("/login");
+		 widget.onSignedOut();
 		} catch (e) {
 			print(e);
 		}
