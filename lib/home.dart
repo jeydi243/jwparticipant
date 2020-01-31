@@ -4,21 +4,21 @@ import 'package:jwparticipant/auth.dart';
 import 'package:jwparticipant/record.dart';
 
 
-class MyHomePage extends StatefulWidget {
+class HomePage extends StatefulWidget {
 
-	MyHomePage({
+	HomePage({
 		this.onSignedOut,this.auth
 	});
 	final VoidCallback onSignedOut;
 	final BaseAuth auth;
 
 	@override
-	_MyHomePageState createState() {
-		return _MyHomePageState();
+	_HomePageState createState() {
+		return _HomePageState();
 	}
 }
 
-class _MyHomePageState extends State < MyHomePage > {
+class _HomePageState extends State <HomePage> {
 	void _signOut()async{
 		try {
 			await widget.auth.signOut();

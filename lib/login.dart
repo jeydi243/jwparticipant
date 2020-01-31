@@ -60,7 +60,7 @@ class _LoginState extends State < LoginPage > {
 	}
 	Route _createRoute() {
 		return PageRouteBuilder(
-			pageBuilder: (context, animation, secondaryAnimation) => MyHomePage(),
+			pageBuilder: (context, animation, secondaryAnimation) => HomePage(),
 			transitionsBuilder: (context, animation, secondaryAnimation, child) {
 				var begin = Offset(0.0, 1.0);
 				var end = Offset.zero;
@@ -207,8 +207,7 @@ class _LoginState extends State < LoginPage > {
 						))
 					),
 				),
-				_build2Champ(),
-				
+				_build2Champ(),			
 				new RaisedButton(
 					elevation: 12.0,
 					padding: EdgeInsets.all(10.0),
@@ -225,6 +224,7 @@ class _LoginState extends State < LoginPage > {
 						Spacer(),
 						Text("Déja enregistré?"),
 						FlatButton(
+							padding: EdgeInsets.zero,
 							child: Text("Connexion",
 								style: TextStyle(
 									color: Colors.teal,

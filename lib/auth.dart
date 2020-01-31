@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -22,8 +21,8 @@ class Auth implements BaseAuth {
   Future <void> signOut() async {
 		return _fbAuth.signOut();
 	}
-  Future < String > currentUser()async{
+  Future <String> currentUser()async{
     FirebaseUser user = await _fbAuth.currentUser();
-    return user.uid;
+    return user?.uid;
   }
 }
