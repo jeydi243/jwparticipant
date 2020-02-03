@@ -9,7 +9,9 @@ enum AuthStatus {
 }
 
 class RootPage extends StatefulWidget {
-	RootPage({this.auth});
+	RootPage({
+		this.auth
+	});
 	final BaseAuth auth;
 	@override
 	_RootPageState createState() => _RootPageState();
@@ -20,20 +22,20 @@ class _RootPageState extends State < RootPage > {
 	@override
 	void initState() {
 		super.initState();
-		widget.auth.currentUser().then((uid){
-			setState((){
-				status = uid == null? AuthStatus.notSignedIn: AuthStatus.signedIn;
+		widget.auth.currentUser().then((uid) {
+			setState(() {
+				status = uid == null ? AuthStatus.notSignedIn : AuthStatus.signedIn;
 			});
 		});
 	}
-	void _signedIn(){
+	void _signedIn() {
 		setState(() {
-		  status = AuthStatus.signedIn;
+			status = AuthStatus.signedIn;
 		});
 	}
-	void _signedOut(){
+	void _signedOut() {
 		setState(() {
-		  status = AuthStatus.notSignedIn;
+			status = AuthStatus.notSignedIn;
 		});
 	}
 	@override
@@ -44,11 +46,13 @@ class _RootPageState extends State < RootPage > {
 					auth: widget.auth,
 					onSignedIn: _signedIn,
 				);
+
 			case AuthStatus.signedIn:
 				return new HomePage(
 					auth: widget.auth,
 					onSignedOut: _signedOut
 				);
+
 		}
 		return new Scaffold(
 			appBar: AppBar(title: Text("le monde est beau")),
