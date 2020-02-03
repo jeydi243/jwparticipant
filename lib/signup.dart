@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jwparticipant/auth.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jwparticipant/home.dart';
 
 class Signup extends StatefulWidget {
 	Signup({this.auth});
@@ -17,6 +18,27 @@ class _SignupState extends State < Signup > {
 	String _nom;
 	String _password;
 
+	_moveToLogin() {
+		setState(() {
+			// _formType = FormType.login;
+		});
+	}
+	Route _createRoute() {
+		return PageRouteBuilder(
+			pageBuilder: (context, animation, secondaryAnimation) => HomePage(),
+			transitionsBuilder: (context, animation, secondaryAnimation, child) {
+				var begin = Offset(0.0, 1.0);
+				var end = Offset.zero;
+				var tween = Tween(begin: begin, end: end);
+				var offsetAnimation = animation.drive(tween);
+
+				return SlideTransition(
+					position: offsetAnimation,
+					child: child,
+				);
+			},
+		);
+	}
 	bool _validateandSave() {
 		final form = _formKey.currentState;
 		if (form.validate()) {
@@ -31,10 +53,12 @@ class _SignupState extends State < Signup > {
 	}
 	void _submit() async{
 		try {
-		    String uid = await widget.auth.signUp(_email, _password, _nom);
+			if(_validateandSave()){
+				String uid = await widget.auth.signUp(_email, _password, _nom);
 				print("L'utilisateur s'est bien enregistré $uid");
 				_formKey.currentState.reset();
 				Navigator.of(context).push(_createRoute());
+			}
 		} catch (e) {
 			print(e);
 		}

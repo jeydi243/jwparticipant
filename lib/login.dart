@@ -74,11 +74,6 @@ class _LoginState extends State < LoginPage > {
 			// _formType = FormType.signup;
 		});
 	}
-	_moveToLogin() {
-		setState(() {
-			// _formType = FormType.login;
-		});
-	}
 
 	@override
 	void initState() {
