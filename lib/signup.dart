@@ -1,16 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:jwparticipant/auth.dart';
 import 'package:google_fonts/google_fonts.dart';
-class Signup extends StatefulWidget {
-  Signup({Key key}) : super(key: key);
 
-  @override
-  _SignupState createState() => _SignupState();
+class Signup extends StatefulWidget {
+	Signup({this.auth});
+	final BaseAuth auth;
+
+	@override
+	_SignupState createState() => _SignupState();
 }
 
-class _SignupState extends State<Signup> {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
+class _SignupState extends State < Signup > {
+	final _formKey = GlobalKey < FormState > ();
+	bool _canObscure = true;
+	String _email;
+	String _nom;
+	String _password;
+
+	bool _validateandSave() {
+		final form = _formKey.currentState;
+		if (form.validate()) {
+			form.save();
+			print("le formulaire est pret");
+			print('$_email et $_password');
+			return true;
+		} else {
+			print("Erreur dans le formulaire");
+			return false;
+		}
+	}
+	void _submit() async{
+		try {
+		    String uid = await widget.auth.signUp(_email, _password, _nom);
+				print("L'utilisateur s'est bien enregistré $uid");
+				_formKey.currentState.reset();
+				Navigator.of(context).push(_createRoute());
+		} catch (e) {
+			print(e);
+		}
+	}
+
+	@override
+	Widget build(BuildContext context) {
+		return Column(
 			mainAxisAlignment: MainAxisAlignment.center,
 			children: [
 				Image.asset("images/conversation.png", fit: BoxFit.fill),
@@ -97,5 +129,5 @@ class _SignupState extends State<Signup> {
 				)
 			]
 		);
-  }
+	}
 }
