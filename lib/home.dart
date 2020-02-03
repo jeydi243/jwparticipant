@@ -7,7 +7,8 @@ import 'package:jwparticipant/record.dart';
 class HomePage extends StatefulWidget {
 
 	HomePage({
-		this.onSignedOut,this.auth
+		this.onSignedOut,
+		this.auth
 	});
 	final VoidCallback onSignedOut;
 	final BaseAuth auth;
@@ -18,14 +19,14 @@ class HomePage extends StatefulWidget {
 	}
 }
 
-class _HomePageState extends State <HomePage> {
-	void _signOut()async{
+class _HomePageState extends State < HomePage > {
+	void _signOut() async {
 		try {
 			print("la methode est appelé");
 			await widget.auth.signOut();
 			print("Ca passe");
-		//   Navigator.of(context).pushNamed("/login");
-		 widget.onSignedOut();
+			//   Navigator.of(context).pushNamed("/login");
+			widget.onSignedOut();
 		} catch (e) {
 			print(e);
 		}
@@ -36,7 +37,7 @@ class _HomePageState extends State <HomePage> {
 		return Scaffold(
 			appBar: AppBar(
 				title: Text('Accueil'),
-				actions: <Widget>[
+				actions: < Widget > [
 					FlatButton(
 						child: Icon(Icons.subdirectory_arrow_left),
 						onPressed: _signOut,

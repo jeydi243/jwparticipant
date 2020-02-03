@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:jwparticipant/auth.dart';
 import 'package:jwparticipant/home.dart';
 import 'package:jwparticipant/login.dart';
+import 'package:jwparticipant/signup.dart';
 
 enum AuthStatus {
 	signedIn,
 	notSignedIn
+}
+enum FormType {
+	login,
+	signup
 }
 
 class RootPage extends StatefulWidget {
@@ -13,19 +18,24 @@ class RootPage extends StatefulWidget {
 		this.auth
 	});
 	final BaseAuth auth;
+
 	@override
 	_RootPageState createState() => _RootPageState();
 }
 
 class _RootPageState extends State < RootPage > {
 	AuthStatus status = AuthStatus.notSignedIn;
-	@override
-	void initState() {
-		super.initState();
-		widget.auth.currentUser().then((uid) {
-			setState(() {
-				status = uid == null ? AuthStatus.notSignedIn : AuthStatus.signedIn;
-			});
+	FormType _formType = FormType.login;
+
+	
+	void _moveToLogin() {
+		setState(() {
+			_formType = FormType.login;
+		});
+	}
+	void _moveToSignup() {
+		setState(() {
+			 _formType = FormType.signup;
 		});
 	}
 	void _signedIn() {
@@ -38,13 +48,32 @@ class _RootPageState extends State < RootPage > {
 			status = AuthStatus.notSignedIn;
 		});
 	}
+	
+	@override
+	void initState() {
+		super.initState();
+		widget.auth.currentUser().then((uid) {
+			setState(() {
+				status = uid == null ? AuthStatus.notSignedIn : AuthStatus.signedIn;
+			});
+		});
+	}
+
 	@override
 	Widget build(BuildContext context) {
 		switch (status) {
 			case AuthStatus.notSignedIn:
-				return new LoginPage(
-					auth: widget.auth,
-					onSignedIn: _signedIn,
+				return AnimatedSwitcher(
+					duration: Duration(seconds: 1),
+					switchInCurve: Curves.linear,
+					child: _formType ==FormType.login? new LoginPage(
+						auth: widget.auth,
+						onSignedIn: _signedIn,
+						move: _moveToSignup
+					): new Signup(
+						auth: widget.auth,
+						move: _moveToLogin,
+					),
 				);
 
 			case AuthStatus.signedIn:
