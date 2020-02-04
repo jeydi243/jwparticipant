@@ -20,6 +20,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State < HomePage > {
+	
 	void _signOut() async {
 		try {
 			print("la methode est appelé");

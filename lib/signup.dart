@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jwparticipant/auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jwparticipant/home.dart';
+import 'package:string_validator/string_validator.dart';
 
 class Signup extends StatefulWidget {
 	Signup({
@@ -99,8 +100,8 @@ class _SignupState extends State < Signup > {
 			  	  				),
 			  	  		),
 			  	  		new TextFormField(
+								onChanged: (value) => blacklist(value, '\[\]'),
 			  	  			onSaved: (value) => _nom = value,
-
 			  	  			validator: (value) => value.isEmpty ? "Le nom doit etre renseigné" : null,
 			  	  			decoration: new InputDecoration(
 			  	  				isDense: true,
@@ -160,8 +161,12 @@ class _SignupState extends State < Signup > {
 			  	  				)
 			  	  			],
 			  	  		),
-			  	  		new RaisedButton(
-			  	  			color: Colors.white,
+						ConstrainedBox(
+							constraints: BoxConstraints(
+								minWidth: MediaQuery.of(context).size.width
+							),
+							child:new RaisedButton(
+			  	  			color:Colors.yellow[800],
 			  	  			elevation: 12.0,
 			  	  			
 			  	  			shape: RoundedRectangleBorder(
@@ -170,7 +175,9 @@ class _SignupState extends State < Signup > {
 			  	  			textColor: _hexToColor("#124A2C"),
 			  	  			child: Text("M'enregistrer"),
 			  	  			onPressed: _submit,
-			  	  		),
+			  	  		), 
+						),
+			  	  		
 						 
 			  	  		Row(
 			  	  			children: < Widget > [

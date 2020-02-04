@@ -75,122 +75,128 @@ class _LoginState extends State < LoginPage > {
 		return Scaffold(
 			backgroundColor: Colors.white,
 			body: Center(
-			  child: new AnimatedContainer(
-			  	curve: Curves.fastOutSlowIn,
-			  	duration: Duration(seconds: 2),
-			  	alignment: Alignment.center,
-			  	decoration: BoxDecoration(
-			  		color: Colors.white,
-			  		borderRadius: BorderRadius.only(topRight: Radius.circular(10.0))
-			  		// gradient: LinearGradient(
-			  		// 	begin: Alignment.topCenter,
-			  		// 	end: Alignment.bottomCenter,
-			  		// 	colors: [Colors.white,Colors.white ,_hexToColor(fin)]),
-			  	),
-			  	padding: EdgeInsets.all(20.0),
-			  	child: Column(
-			  		mainAxisAlignment: MainAxisAlignment.center,
-			  		children: < Widget > [
-			  			new Form(
-			  				key: _formKey,
-			  				child: Column(
-			  					children: [
-			  						Image.asset("images/conversation.png", fit: BoxFit.fill, ),
-			  						new Text("Bonjour!,",
-			  							style: GoogleFonts.bubblegumSans(
-			  								textStyle: TextStyle(
-			  									color: Colors.yellow[800],
-			  									letterSpacing: .5,
-			  									fontSize: 25.0,
-			  								)
-			  							)),
-			  						new Text("Ravis de vous revoir",
-			  							style: GoogleFonts.bubblegumSans(
-			  								textStyle: TextStyle(
-			  									color: Colors.yellow[800],
-			  									fontSize: 35.0,
-			  									letterSpacing: .5
-			  								)
-			  							)
-			  						),
-			  						new TextFormField(
-			  							onSaved: (value) => _emailOrNom = value,
-			  							validator: (value) => value.isEmpty ? "L'email ou nom doit etre renseigné" : null,
-			  							decoration: new InputDecoration(
-			  								hoverColor: Colors.green,
-			  								isDense: true,
-			  								prefixIcon: Icon(Icons.email, color: Colors.teal, ),
-											  hintText: "Email ou Nom",
-											  hasFloatingPlaceholder: true,
-			  								labelText: "Email",
-			  								labelStyle: GoogleFonts.bubblegumSans(textStyle: TextStyle(
-			  									color: Colors.teal,
-			  								))
-			  							),
-			  						),
-			  						new TextFormField(
-			  							onSaved: (value) => _password = value,
-			  							validator: (value) => value.isEmpty ? "Le mot de passe doit etre renseigné" : null,
-			  							decoration: new InputDecoration(
-			  								isDense: true,
-			  								prefixIcon: Icon(Icons.lock, color: Colors.teal),
-			  								suffixIcon: FlatButton(
-			  									child: _canObscure == true ? Text("SHOW") : Text("HIDE"),
-			  									onPressed: () {
-			  										setState(() {
-			  											_canObscure = _canObscure ? false : true;
-			  										});
-			  									},
-			  								),
-			  								labelText: "Mot de passe",
-			  								labelStyle: GoogleFonts.bubblegumSans(textStyle: TextStyle(
-			  									color: Colors.teal,
-			  								))
-			  							),
-			  							obscureText: _canObscure,
-			  						),
-			  						Row(
-			  							children: < Widget > [
-			  								Spacer(flex: 2),
-			  								new Text("Reinitialisé? ",
-			  									style: GoogleFonts.alef(
-			  										textStyle: TextStyle(
-			  											color: Colors.white
-			  										)
-			  									)
-			  								),
-			  							],
-			  						),
-			  						new RaisedButton(
-			  							elevation: 12.0,
-			  							textColor: _hexToColor("#124A2C"),
-			  							child: new Text("Connexion", style: TextStyle(fontSize: 17.0)),
-			  							shape: RoundedRectangleBorder(
-			  								borderRadius: new BorderRadius.circular(18.0),
-			  							),
-			  							color: Colors.white,
-			  							onPressed: () {
-			  								_submit();
-			  							},
-			  						),
-									Row(
-										children: <Widget>[
-											Spacer(),
-											Text("Vous etes nouveau ?"),
-											new FlatButton(
-			  							textColor: Colors.teal,
-			  							child: Text("M'enregistrer"),
-			  							onPressed: widget.move,
-			  						)
-										],
-									),
-			  						
-			  					]
-			  				)
-			  			),
-			  		],
-			  	),
-			  ),
+				child: new AnimatedContainer(
+					curve: Curves.fastOutSlowIn,
+					duration: Duration(seconds: 2),
+					alignment: Alignment.center,
+					decoration: BoxDecoration(
+						color: Colors.white,
+						borderRadius: BorderRadius.only(topRight: Radius.circular(10.0))
+						// gradient: LinearGradient(
+						// 	begin: Alignment.topCenter,
+						// 	end: Alignment.bottomCenter,
+						// 	colors: [Colors.white,Colors.white ,_hexToColor(fin)]),
+					),
+					padding: EdgeInsets.all(20.0),
+					child: Column(
+						mainAxisAlignment: MainAxisAlignment.center,
+						children: < Widget > [
+							new Form(
+								key: _formKey,
+								child: Column(
+									children: [
+										Image.asset("images/conversation.png", fit: BoxFit.fill, ),
+										new Text("Bonjour!,",
+											style: GoogleFonts.bubblegumSans(
+												textStyle: TextStyle(
+													color: Colors.yellow[800],
+													letterSpacing: .5,
+													fontSize: 25.0,
+												)
+											)),
+										new Text("Ravis de vous revoir",
+											style: GoogleFonts.bubblegumSans(
+												textStyle: TextStyle(
+													color: Colors.yellow[800],
+													fontSize: 35.0,
+													letterSpacing: .5
+												)
+											)
+										),
+										new TextFormField(
+											onSaved: (value) => _emailOrNom = value,
+											validator: (value) => value.isEmpty ? "L'email ou nom doit etre renseigné" : null,
+											decoration: new InputDecoration(
+												hoverColor: Colors.green,
+												isDense: true,
+												prefixIcon: Icon(Icons.email, color: Colors.teal, ),
+												hintText: "Email ou Nom",
+												hasFloatingPlaceholder: true,
+												labelText: "Email",
+												labelStyle: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+													color: Colors.teal,
+												))
+											),
+										),
+										new TextFormField(
+											onSaved: (value) => _password = value,
+											validator: (value) => value.isEmpty ? "Le mot de passe doit etre renseigné" : null,
+											decoration: new InputDecoration(
+												isDense: true,
+												prefixIcon: Icon(Icons.lock, color: Colors.teal),
+												suffixIcon: FlatButton(
+													child: _canObscure == true ? Text("SHOW") : Text("HIDE"),
+													onPressed: () {
+														setState(() {
+															_canObscure = _canObscure ? false : true;
+														});
+													},
+												),
+												labelText: "Mot de passe",
+												labelStyle: GoogleFonts.bubblegumSans(textStyle: TextStyle(
+													color: Colors.teal,
+												))
+											),
+											obscureText: _canObscure,
+										),
+										Row(
+											children: < Widget > [
+												Spacer(flex: 2),
+												new Text("Reinitialisé? ",
+													style: GoogleFonts.alef(
+														textStyle: TextStyle(
+															color: Colors.white
+														)
+													)
+												),
+											],
+										),
+										ConstrainedBox(
+											constraints: BoxConstraints(
+												minWidth: MediaQuery.of(context).size.width,
+											),
+											child: new RaisedButton(
+											elevation: 12.0,
+											textColor: _hexToColor("#124A2C"),
+											child: new Text("Connexion", style: TextStyle(fontSize: 17.0)),
+											shape: RoundedRectangleBorder(
+												borderRadius: new BorderRadius.circular(18.0),
+											),
+											color: Colors.white,
+											onPressed: () {
+												_submit();
+											},
+										),
+										),
+										
+										Row(
+											children: < Widget > [
+												Spacer(),
+												Text("Vous etes nouveau ?"),
+												new FlatButton(
+													textColor: Colors.teal,
+													child: Text("M'enregistrer"),
+													onPressed: widget.move,
+												)
+											],
+										),
+
+									]
+								)
+							),
+						],
+					),
+				),
 			),
 		);
 	}
