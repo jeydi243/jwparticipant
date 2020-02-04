@@ -38,6 +38,8 @@ class _HomePageState extends State < HomePage > {
 		return Scaffold(
 			appBar: AppBar(
 				title: Text('Accueil'),
+				backgroundColor: Colors.teal,
+				automaticallyImplyLeading: false,
 				actions: < Widget > [
 					FlatButton(
 						child: Icon(Icons.subdirectory_arrow_left),
@@ -45,7 +47,13 @@ class _HomePageState extends State < HomePage > {
 					)
 				],
 			),
-			body: _buildBody(context),
+			body: Center(
+				child: Column(
+					children: <Widget>[
+						
+					],
+				),
+			),
 		);
 	}
 

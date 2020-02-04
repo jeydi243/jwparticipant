@@ -166,19 +166,19 @@ class _LoginState extends State < LoginPage > {
 												minWidth: MediaQuery.of(context).size.width,
 											),
 											child: new RaisedButton(
-											elevation: 12.0,
-											textColor: _hexToColor("#124A2C"),
-											child: new Text("Connexion", style: TextStyle(fontSize: 17.0)),
-											shape: RoundedRectangleBorder(
-												borderRadius: new BorderRadius.circular(18.0),
+												elevation: 12.0,
+												textColor: _hexToColor("#124A2C"),
+												child: new Text("Connexion", style: TextStyle(fontSize: 17.0)),
+												shape: RoundedRectangleBorder(
+													borderRadius: new BorderRadius.circular(18.0),
+												),
+												color: Colors.yellow[800],
+												onPressed: () {
+													_submit();
+												},
 											),
-											color: Colors.white,
-											onPressed: () {
-												_submit();
-											},
 										),
-										),
-										
+
 										Row(
 											children: < Widget > [
 												Spacer(),
