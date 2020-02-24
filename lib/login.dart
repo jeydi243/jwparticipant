@@ -4,6 +4,16 @@ import 'package:jwparticipant/auth.dart';
 import 'package:jwparticipant/home.dart';
 // import 'package:flare_flutter/flare_actor.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading/loading.dart';
+import 'package:loading/indicator/ball_pulse_indicator.dart';
+// import 'package:loading/indicator/ball_scale_indicator.dart';
+// import 'package:loading/indicator/ball_grid_pulse_indicator.dart';
+// import 'package:loading/indicator/line_scale_indicator.dart';
+// import 'package:loading/indicator/ball_scale_multiple_indicator.dart';
+// import 'package:loading/indicator/line_scale_party_indicator.dart';
+// import 'package:loading/indicator/ball_beat_indicator.dart';
+// import 'package:loading/indicator/line_scale_pulse_out_indicator.dart';
+// import 'package:loading/indicator/ball_spin_fade_loader_indicator.dart';
 
 
 class LoginPage extends StatefulWidget {
@@ -21,6 +31,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginState extends State < LoginPage > {
 	final _formKey = GlobalKey < FormState > ();
+	bool _isTrue = true;
 	bool _canObscure = false;
 	String fin = "#FAD961";
 	String _emailOrNom;
@@ -40,10 +51,18 @@ class _LoginState extends State < LoginPage > {
 	}
 	void _submit() async {
 		if (_validateandSave()) {
+			setState(() {
+			_isTrue = false;
+			  
+			});
 			try {
 				String uid = await widget.auth.signIn(_emailOrNom, _password);
 				print("L'utilisateur s'est bien connecté $uid");
 				_formKey.currentState.reset();
+				setState(() {
+				_isTrue = true;
+			  
+			});
 				Navigator.of(context).push(_createRoute());
 			} catch (e) {
 				print(e);
@@ -77,7 +96,7 @@ class _LoginState extends State < LoginPage > {
 			body: Center(
 			  child: new AnimatedContainer(
 			  	curve: Curves.fastOutSlowIn,
-			  	duration: Duration(seconds: 2),
+			  	duration: Duration(seconds: 1),
 			  	alignment: Alignment.center,
 			  	decoration: BoxDecoration(
 			  		color: Colors.white,
@@ -161,7 +180,7 @@ class _LoginState extends State < LoginPage > {
 			  								),
 			  							],
 			  						),
-			  						new RaisedButton(
+			  						_isTrue ? new RaisedButton(
 			  							elevation: 12.0,
 			  							textColor: _hexToColor("#124A2C"),
 			  							child: new Text("Connexion", style: TextStyle(fontSize: 17.0)),
@@ -172,7 +191,7 @@ class _LoginState extends State < LoginPage > {
 			  							onPressed: () {
 			  								_submit();
 			  							},
-			  						),
+			  						) : Loading(indicator: BallPulseIndicator(), size: 60.0, color: Colors.teal),
 									Row(
 										children: <Widget>[
 											Spacer(),

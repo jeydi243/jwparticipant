@@ -1,8 +1,14 @@
+// import 'dart:async';
+import 'package:vibration/vibration.dart';
+// import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:jwparticipant/auth.dart';
 import 'package:jwparticipant/record.dart';
 
+import 'chart.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -20,6 +26,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State < HomePage > {
+	final format = DateFormat("dd-MM-yyyy");
 	void _signOut() async {
 		try {
 			print("la methode est appelé");
@@ -35,16 +42,86 @@ class _HomePageState extends State < HomePage > {
 	@override
 	Widget build(BuildContext context) {
 		return Scaffold(
+			backgroundColor: Colors.grey[300],
 			appBar: AppBar(
+				centerTitle: true,
 				title: Text('Accueil'),
-				actions: < Widget > [
-					FlatButton(
-						child: Icon(Icons.subdirectory_arrow_left),
-						onPressed: _signOut,
-					)
-				],
+				backgroundColor: Colors.teal,
 			),
-			body: _buildBody(context),
+			body: Center(
+				child: Container(
+					padding: EdgeInsets.all(15.0),
+					child: Column(
+						children: < Widget > [
+							Container(
+								child: Column(
+									children: < Widget > [
+
+										BarChartSample1(),
+									],
+								),
+							),
+							Spacer(flex: 2),
+							Container(
+								height: 300,
+								width: 300,
+								decoration: BoxDecoration(
+									color: Colors.grey[300],
+									borderRadius: BorderRadius.all(Radius.circular(40)),
+									boxShadow: [
+										BoxShadow(
+											color: Colors.white,
+											offset: Offset(-10.0, -10.0),
+											blurRadius: 10.0,
+											spreadRadius: 1.0
+										),
+										BoxShadow(
+											color: Colors.grey[500],
+											offset: Offset(10.0, 10.0),
+											blurRadius: 10.0,
+											spreadRadius: 1.0
+										)
+									]
+								),
+								child: Column(
+									children: < Widget > [
+										FlatButton(
+											onPressed: () {
+												DatePicker.showDatePicker(
+													context,
+													showTitleActions: true,
+													minTime: DateTime(2018, 3, 5),
+													maxTime: DateTime(2019, 6, 7),
+													onChanged: (date) {
+														Vibration.vibrate();
+														print('change $date');
+													}, onConfirm: (date) {
+														print('confirm $date');
+													}, currentTime: DateTime.now(), locale: LocaleType.fr);
+											},
+											child: Text(
+												'Choisir la date!',
+												style: TextStyle(
+													color: Colors.blue
+												),
+											)
+										),
+										SizedBox(
+											child: FittedBox(
+												fit: BoxFit.fill,
+												child: FlatButton(
+													onPressed: () {},
+													color: Colors.teal,
+													child: Text("Envoyer")),
+											)
+										),
+									],
+								),
+							),
+						],
+					),
+				),
+			),
 		);
 	}
 
