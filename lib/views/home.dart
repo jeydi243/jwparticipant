@@ -1,14 +1,11 @@
-// import 'dart:async';
 import 'package:vibration/vibration.dart';
-// import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:jwparticipant/auth.dart';
-import 'package:jwparticipant/record.dart';
-
-import 'chart.dart';
+import 'package:jwparticipant/services/auth.dart';
+import 'package:jwparticipant/models/record.dart';
+import 'package:jwparticipant/utils/chart.dart';
 
 class HomePage extends StatefulWidget {
 

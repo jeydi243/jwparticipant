@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jwparticipant/auth.dart';
+import 'package:jwparticipant/services/auth.dart';
 import 'package:jwparticipant/root_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 

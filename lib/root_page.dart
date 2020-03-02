@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:jwparticipant/auth.dart';
-import 'package:jwparticipant/home.dart';
-import 'package:jwparticipant/login.dart';
-import 'package:jwparticipant/signup.dart';
+import 'package:jwparticipant/services/auth.dart';
+import 'package:jwparticipant/views/home.dart';
+import 'package:jwparticipant/views/login.dart';
+import 'package:jwparticipant/views/signup.dart';
 
 enum AuthStatus {
 	signedIn,

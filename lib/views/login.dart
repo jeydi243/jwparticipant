@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:jwparticipant/auth.dart';
-import 'package:jwparticipant/home.dart';
+import 'package:jwparticipant/services/auth.dart';
+import 'package:jwparticipant/views/home.dart';
 // import 'package:flare_flutter/flare_actor.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading/loading.dart';
