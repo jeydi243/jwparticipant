@@ -27,6 +27,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State < HomePage > {
 	final format = DateFormat("dd-MM-yyyy");
+	String datee = DateTime.now().toLocal().toString();
 	void _signOut() async {
 		try {
 			print("la methode est appelé");
@@ -42,83 +43,110 @@ class _HomePageState extends State < HomePage > {
 	@override
 	Widget build(BuildContext context) {
 		return Scaffold(
+			resizeToAvoidBottomInset: false,
 			backgroundColor: Colors.grey[300],
-			appBar: AppBar(
-				centerTitle: true,
-				title: Text('Accueil'),
-				backgroundColor: Colors.teal,
-			),
-			body: Center(
-				child: Container(
-					padding: EdgeInsets.all(15.0),
-					child: Column(
-						children: < Widget > [
-							Container(
-								child: Column(
-									children: < Widget > [
+			// appBar: AppBar(
+			// 	centerTitle: true,
+			// 	title: Text('Accueil'),
+			// 	backgroundColor: Colors.teal,
+			// ),
+			body: SafeArea(
+				child: Center(
+					child: Container(
+						padding: EdgeInsets.all(15.0),
+						child: Column(
+							mainAxisSize: MainAxisSize.max,
+							mainAxisAlignment: MainAxisAlignment.spaceBetween,
+							children: < Widget > [
+								Container(
+									child: BarChartSample1(),
+								),
 
-										BarChartSample1(),
-									],
-								),
-							),
-							Spacer(flex: 2),
-							Container(
-								height: 300,
-								width: 300,
-								decoration: BoxDecoration(
-									color: Colors.grey[300],
-									borderRadius: BorderRadius.all(Radius.circular(40)),
-									boxShadow: [
-										BoxShadow(
-											color: Colors.white,
-											offset: Offset(-10.0, -10.0),
-											blurRadius: 10.0,
-											spreadRadius: 1.0
-										),
-										BoxShadow(
-											color: Colors.grey[500],
-											offset: Offset(10.0, 10.0),
-											blurRadius: 10.0,
-											spreadRadius: 1.0
-										)
-									]
-								),
-								child: Column(
-									children: < Widget > [
-										FlatButton(
-											onPressed: () {
-												DatePicker.showDatePicker(
-													context,
-													showTitleActions: true,
-													minTime: DateTime(2018, 3, 5),
-													maxTime: DateTime(2019, 6, 7),
-													onChanged: (date) {
-														Vibration.vibrate();
-														print('change $date');
-													}, onConfirm: (date) {
-														print('confirm $date');
-													}, currentTime: DateTime.now(), locale: LocaleType.fr);
-											},
-											child: Text(
-												'Choisir la date!',
-												style: TextStyle(
-													color: Colors.blue
+								ConstrainedBox(
+									constraints: BoxConstraints(
+										minWidth: 300,
+										maxWidth: double.infinity,
+										minHeight: 300,
+										maxHeight: double.infinity,
+									),
+									child: Container(
+										padding: EdgeInsets.only(left: 25.0, right: 25.0),
+										decoration: BoxDecoration(
+											color: Colors.grey[300],
+											borderRadius: BorderRadius.all(Radius.circular(40)),
+											boxShadow: [
+												BoxShadow(
+													color: Colors.white,
+													offset: Offset(-10.0, -10.0),
+													blurRadius: 10.0,
+													spreadRadius: 1.0
 												),
-											)
+												BoxShadow(
+													color: Colors.grey[500],
+													offset: Offset(10.0, 10.0),
+													blurRadius: 10.0,
+													spreadRadius: 1.0
+												)
+											]
 										),
-										SizedBox(
-											child: FittedBox(
-												fit: BoxFit.fill,
-												child: FlatButton(
-													onPressed: () {},
-													color: Colors.teal,
-													child: Text("Envoyer")),
-											)
+										child: IntrinsicWidth(
+											child: Column(
+												mainAxisSize: MainAxisSize.max,
+												mainAxisAlignment: MainAxisAlignment.spaceBetween,
+												children: < Widget > [
+													FlatButton(
+														onPressed: () {
+															DatePicker.showDatePicker(
+																context,
+																showTitleActions: true,
+																minTime: DateTime(2018, 3, 5),
+																maxTime: DateTime(2019, 6, 7),
+																onChanged: (date) {
+																	Vibration.vibrate();
+																	print('change $date');
+																}, onConfirm: (date) {
+																	print('confirm $date');
+																}, currentTime: DateTime.now(), locale: LocaleType.fr);
+														},
+														child: Text(
+															'CHOISIR LA DATE',
+															style: TextStyle(
+																color: Colors.blue
+															),
+														)
+													),
+													Text('Date: ${datee}'),
+													TextField(
+														textInputAction: TextInputAction.send,
+														cursorColor: Colors.teal,
+														
+														decoration: InputDecoration(
+															hintText: "Nombre d'assistant",
+															hintStyle: TextStyle(
+																
+															)
+														),
+													),
+													SizedBox(
+														child: FittedBox(
+															fit: BoxFit.fill,
+															child: FlatButton(
+																onPressed: () {},
+																color: Colors.teal,
+																child: Text("Envoyer", style: TextStyle(
+																	color: Colors.white,
+																	fontSize: 20
+																))
+															),
+														)
+													),
+												],
+											),
 										),
-									],
+									),
 								),
-							),
-						],
+							],
+						),
 					),
 				),
 			),

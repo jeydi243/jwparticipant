@@ -15,7 +15,8 @@ class MyApp extends StatelessWidget {
 				GlobalWidgetsLocalizations.delegate,
 				GlobalCupertinoLocalizations.delegate,
 			],
-
+      
+  locale: Locale("fr"),
 			debugShowCheckedModeBanner: false,
 			home: RootPage(auth: Auth()),
 		);

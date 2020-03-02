@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +14,7 @@ class BarChartSample1 extends StatefulWidget {
 	];
 
 	@override
-	State <StatefulWidget> createState() => BarChartSample1State();
+	State < StatefulWidget > createState() => BarChartSample1State();
 }
 
 class BarChartSample1State extends State < BarChartSample1 > {
@@ -42,7 +41,7 @@ class BarChartSample1State extends State < BarChartSample1 > {
 										crossAxisAlignment: CrossAxisAlignment.stretch,
 										mainAxisAlignment: MainAxisAlignment.start,
 										mainAxisSize: MainAxisSize.max,
-										children: <Widget> [
+										children: < Widget > [
 											Text(
 												'Stats',
 												style: TextStyle(
@@ -52,7 +51,7 @@ class BarChartSample1State extends State < BarChartSample1 > {
 													height: 4,
 												),
 												Text(
-													"Moyenne par mois",
+													"Moyenne de ${DateTime.now().toLocal().month}",
 													style: TextStyle(
 														color: const Color(0xff379982), fontSize: 18, fontWeight: FontWeight.bold),
 												),
@@ -108,7 +107,8 @@ class BarChartSample1State extends State < BarChartSample1 > {
 			double width = 22,
 			List < int > showTooltips =
 			const [],
-		}) {
+		}) 
+		{
 		return BarChartGroupData(
 			x: x,
 			barRods: [
@@ -127,16 +127,16 @@ class BarChartSample1State extends State < BarChartSample1 > {
 		);
 	}
 
-	List < BarChartGroupData > showingGroups() => List.generate(7, (i) {
+	List <BarChartGroupData> showingGroups() => List.generate(7, (i) {
 		switch (i) {
 			case 0:
-				return makeGroupData(0, 5, isTouched: i == touchedIndex);
+				return makeGroupData(0, 5, isTouched: i == touchedIndex,barColor: Colors.blue,width: 15);
 			case 1:
 				return makeGroupData(1, 6.5, isTouched: i == touchedIndex);
 			case 2:
 				return makeGroupData(2, 5, isTouched: i == touchedIndex);
 			case 3:
-				return makeGroupData(3, 7.5, isTouched: i == touchedIndex);
+				return makeGroupData(3, 11.5, isTouched: i == touchedIndex);
 			case 4:
 				return makeGroupData(4, 9, isTouched: i == touchedIndex);
 			case 5:
