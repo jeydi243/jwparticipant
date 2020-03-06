@@ -153,14 +153,6 @@ class _HomePageState extends State < HomePage > {
 		);
 	}
 
-	Widget _buildList(BuildContext context, List < DocumentSnapshot > snapshot) {
-		return ListView(
-			shrinkWrap: true,
-			padding: const EdgeInsets.only(top: 20.0),
-				children: snapshot.map((data) => _buildListItem(context, data)).toList(),
-		);
-	}
-
 	Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
 		final record = Record.fromSnapshot(data);
 
