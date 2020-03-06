@@ -153,24 +153,4 @@ class _HomePageState extends State < HomePage > {
 		);
 	}
 
-	Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
-		final record = Record.fromSnapshot(data);
-
-		return Padding(
-			key: ValueKey(record.name),
-			padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-				child: Container(
-					decoration: BoxDecoration(
-						border: Border.all(color: Colors.grey),
-						borderRadius: BorderRadius.circular(5.0),
-					),
-					child: ListTile(
-						title: Text(record.name),
-						trailing: Text(record.votes.toString()),
-						onTap: () => record.reference.updateData({
-							'votes': FieldValue.increment(1)
-						}), ),
-				),
-		);
-	}
 }
