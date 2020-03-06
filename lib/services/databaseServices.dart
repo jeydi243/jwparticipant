@@ -2,11 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseService{
   final Firestore _db = Firestore.instance;
-  final String path;
+  final String collection;
   CollectionReference ref;
 
-  DatabaseService( this.path ) {
-    ref = _db.collection(path);
+  DatabaseService(this.collection) {
+    ref = _db.collection(collection);
   }
 
   Future<QuerySnapshot> getDataCollection() {
