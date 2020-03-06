@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:jwparticipant/auth.dart';
-import 'package:jwparticipant/home.dart';
-import 'package:jwparticipant/login.dart';
-import 'package:jwparticipant/signup.dart';
+import 'package:jwparticipant/services/auth.dart';
+import 'package:jwparticipant/views/home.dart';
+import 'package:jwparticipant/views/login.dart';
+import 'package:jwparticipant/views/signup.dart';
+import 'package:provider/provider.dart';
 
 enum AuthStatus {
 	signedIn,
@@ -26,6 +28,7 @@ class RootPage extends StatefulWidget {
 class _RootPageState extends State < RootPage > {
 	AuthStatus status = AuthStatus.notSignedIn;
 	FormType _formType = FormType.login;
+
 
 	
 	void _moveToLogin() {
@@ -61,11 +64,12 @@ class _RootPageState extends State < RootPage > {
 
 	@override
 	Widget build(BuildContext context) {
+    FirebaseUser user = Provider.of<FirebaseUser>(context);
 		switch (status) {
 			case AuthStatus.notSignedIn:
 				return AnimatedSwitcher(
 					duration: Duration(seconds: 1),
-					switchInCurve: Curves.linear,
+					switchInCurve: Curves.easeInBack,
 					child: _formType ==FormType.login? new LoginPage(
 						auth: widget.auth,
 						onSignedIn: _signedIn,

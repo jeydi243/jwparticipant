@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:jwparticipant/auth.dart';
+import 'package:jwparticipant/services/auth.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:jwparticipant/home.dart';
-import 'package:string_validator/string_validator.dart';
+import 'package:jwparticipant/views/home.dart';
 
 class Signup extends StatefulWidget {
 	Signup({
