@@ -99,7 +99,6 @@ class _SignupState extends State < Signup > {
 									),
 								),
 								new TextFormField(
-									onChanged: (value) => blacklist(value, '\[\]'),
 									onSaved: (value) => _nom = value,
 									validator: (value) => value.isEmpty ? "Le nom doit etre renseigné" : null,
 									decoration: new InputDecoration(

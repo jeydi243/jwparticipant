@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:jwparticipant/auth.dart';
-import 'package:jwparticipant/record.dart';
+import 'package:jwparticipant/services/auth.dart';
+import 'package:jwparticipant/models/record.dart';
 
 
 class HomePage extends StatefulWidget {
