@@ -100,10 +100,13 @@ class _HomePageState extends State < HomePage > {
 																maxTime: DateTime(2030, 12, 31),
 																onChanged: (date) {
 																	// Vibration.vibrate();
-																	print('change $date');
+																	// print('change $date');
 																}, onConfirm: (date) {
 																	print('confirm $date');
-																}, currentTime: DateTime.now(), locale: LocaleType.fr);
+																	setState(() {
+																		datee = date.toString();
+																	});
+																}, currentTime: DateTime.now().toLocal(), locale: LocaleType.fr);
 														},
 														child: Text(
 															'CHOISIR LA DATE',
@@ -116,11 +119,11 @@ class _HomePageState extends State < HomePage > {
 													TextField(
 														textInputAction: TextInputAction.send,
 														cursorColor: Colors.teal,
-														
+
 														decoration: InputDecoration(
 															hintText: "Nombre d'assistant",
 															hintStyle: TextStyle(
-																
+
 															)
 														),
 													),
@@ -147,34 +150,6 @@ class _HomePageState extends State < HomePage > {
 					),
 				),
 			),
-		);
-	}
-
-	Widget _buildBody(BuildContext context) {
-		return AnimatedContainer(
-			duration: Duration(seconds: 2),
-			child: Column(
-				children: [
-					StreamBuilder < QuerySnapshot > (
-						stream: Firestore.instance.collection('baby').snapshots(),
-						builder: (context, snapshot) {
-							if (!snapshot.hasData) return LinearProgressIndicator();
-							return _buildList(context, snapshot.data.documents);
-						},
-					),
-					RaisedButton(
-						color: Colors.white,
-						onPressed: () {
-							print('le Button est appuyé');
-							Navigator.pushNamed(context, '/login');
-
-						},
-						child: Text(
-							'Go',
-						),
-					),
-				],
-			)
 		);
 	}
 
